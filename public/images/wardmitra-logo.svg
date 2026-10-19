@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" width="280" height="64" fill="none">
+  <defs>
+    <linearGradient id="wmGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B0A" />
+      <stop offset="100%" stop-color="#E85D04" />
+    </linearGradient>
+    <linearGradient id="wmShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+  </defs>
+
+  <!-- WardMitra Shield / Emblem Icon -->
+  <rect x="2" y="4" width="56" height="56" rx="14" fill="url(#wmShieldGrad)" stroke="url(#wmGradient)" stroke-width="2.2" />
+
+  <!-- Civic / Citadel / Connected Citizen Nodes Motif -->
+  <!-- Outer Civic Dome Arcs -->
+  <path d="M18 36 C18 24 38 24 38 36" stroke="#FF6B0A" stroke-width="2.5" stroke-linecap="round" fill="none" />
+  <path d="M22 36 C22 28 34 28 34 36" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none" />
+
+  <!-- Central Pillar & Citizen Core -->
+  <circle cx="28" cy="22" r="3.5" fill="#FF6B0A" />
+  <circle cx="20" cy="42" r="2.5" fill="#FFFFFF" opacity="0.9" />
+  <circle cx="28" cy="44" r="3" fill="#FF6B0A" />
+  <circle cx="36" cy="42" r="2.5" fill="#FFFFFF" opacity="0.9" />
+
+  <!-- Connecting AI Network Lines -->
+  <line x1="28" y1="25.5" x2="28" y2="41" stroke="#FF6B0A" stroke-width="1.8" />
+  <line x1="20" y1="42" x2="28" y2="44" stroke="#FFFFFF" stroke-width="1.2" opacity="0.7" />
+  <line x1="36" y1="42" x2="28" y2="44" stroke="#FFFFFF" stroke-width="1.2" opacity="0.7" />
+
+  <!-- Brand Typography -->
+  <g transform="translate(68, 0)">
+    <!-- "WardMitra" text -->
+    <text x="4" y="36" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="24" letter-spacing="-0.4">
+      <tspan fill="#FFFFFF" class="text-white">Ward</tspan>
+      <tspan fill="#FF6B0A">Mitra</tspan>
+    </text>
+
+    <!-- Subtitle: CIVIC AI PLATFORM -->
+    <text x="5" y="52" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="10.5" fill="#94A3B8" letter-spacing="1.5">
+      CIVIC AI PLATFORM
+    </text>
+  </g>
+</svg>

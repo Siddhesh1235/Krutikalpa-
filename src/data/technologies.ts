@@ -133,7 +133,7 @@ export const technologiesData: TechItem[] = [
   {
     name: "OpenAI",
     category: "AI / ML",
-    description: "State-of-the-art GPT-4o and reasoning models",
+    description: "State-of-the-art GPT and reasoning models",
     iconSlug: "openai",
     badge: "Core AI",
   },
@@ -153,7 +153,7 @@ export const technologiesData: TechItem[] = [
   {
     name: "n8n",
     category: "AI / ML",
-    description: "Automated workflow pipelines & AI triggers",
+    description: "Automated workflow pipelines and AI triggers",
     iconSlug: "n8n",
   },
   {
@@ -165,7 +165,7 @@ export const technologiesData: TechItem[] = [
   {
     name: "Hugging Face",
     category: "AI / ML",
-    description: "Open-source fine-tuned models & embeddings",
+    description: "Open-source fine-tuned models and embeddings",
     iconSlug: "huggingface",
   },
 
@@ -179,7 +179,7 @@ export const technologiesData: TechItem[] = [
   {
     name: "PostgreSQL",
     category: "Database",
-    description: "Rock-solid relational and JSON-B data store",
+    description: "Rock-solid relational and JSON data store",
     iconSlug: "postgresql",
     badge: "Primary",
   },
@@ -236,7 +236,7 @@ export const technologiesData: TechItem[] = [
   {
     name: "Kubernetes",
     category: "DevOps",
-    description: "Automated container orchestration & scaling",
+    description: "Automated container orchestration and scaling",
     iconSlug: "kubernetes",
   },
   {
@@ -253,41 +253,6 @@ export const technologiesData: TechItem[] = [
   },
 ];
 
-// Simple Icons export mapping
-const iconMap: Record<string, string> = {
-  react: "siReact",
-  nextjs: "siNextdotjs",
-  angular: "siAngular",
-  typescript: "siTypescript",
-  javascript: "siJavascript",
-  tailwindcss: "siTailwindcss",
-  nodejs: "siNodedotjs",
-  springboot: "siSpringboot",
-  java: "siJava",
-  python: "siPython",
-  fastapi: "siFastapi",
-  reactnative: "siReact",
-  flutter: "siFlutter",
-  swift: "siSwift",
-  kotlin: "siKotlin",
-  openai: "siOpenai",
-  langchain: "siLangchain",
-  crewai: "siCrewai",
-  n8n: "siN8N",
-  huggingface: "siHuggingface",
-  mongodb: "siMongodb",
-  postgresql: "siPostgresql",
-  mysql: "siMysql",
-  redis: "siRedis",
-  aws: "siAmazonaws",
-  azure: "siMicrosoftazure",
-  vercel: "siVercel",
-  docker: "siDocker",
-  kubernetes: "siKubernetes",
-  githubactions: "siGithubactions",
-  terraform: "siTerraform",
-};
-
 export interface TechnologyIconData {
   title: string;
   path: string;
@@ -295,26 +260,81 @@ export interface TechnologyIconData {
   themeAware: boolean;
 }
 
+type SimpleIconDefinition = {
+  title: string;
+  path: string;
+  hex: string;
+};
+
+const simpleIcons = SimpleIcons as unknown as Record<
+  string,
+  SimpleIconDefinition | undefined
+>;
+
+const iconMap: Record<string, string[]> = {
+  react: ["siReact"],
+  nextjs: ["siNextdotjs"],
+  angular: ["siAngular"],
+  typescript: ["siTypescript"],
+  javascript: ["siJavascript"],
+  tailwindcss: ["siTailwindcss"],
+
+  nodejs: ["siNodedotjs"],
+  springboot: ["siSpringboot"],
+  java: ["siOpenjdk", "siJava"],
+  python: ["siPython"],
+  fastapi: ["siFastapi"],
+
+  reactnative: ["siReact"],
+  flutter: ["siFlutter"],
+  swift: ["siSwift"],
+  kotlin: ["siKotlin"],
+
+  openai: ["siOpenai"],
+  langchain: ["siLangchain"],
+  crewai: ["siCrewai"],
+  n8n: ["siN8N", "siN8n"],
+  mcp: ["siModelcontextprotocol", "siMcp"],
+  huggingface: ["siHuggingface"],
+
+  mongodb: ["siMongodb"],
+  postgresql: ["siPostgresql"],
+  mysql: ["siMysql"],
+  redis: ["siRedis"],
+  rds: ["siAmazonrds", "siAmazonrdsdatabase"],
+
+  aws: ["siAmazonaws"],
+  azure: ["siMicrosoftazure"],
+  vercel: ["siVercel"],
+
+  docker: ["siDocker"],
+  kubernetes: ["siKubernetes"],
+  githubactions: ["siGithubactions"],
+  terraform: ["siTerraform"],
+};
+
 export function getTechnologyIcon(
   iconSlug: string
 ): TechnologyIconData | null {
-  const key = iconMap[iconSlug];
+  const candidates = iconMap[iconSlug.toLowerCase()];
 
-  if (!key) return null;
+  if (!candidates) return null;
 
-  const icons = SimpleIcons as unknown as Record<
-    string,
-    { title: string; path: string; hex: string } | undefined
-  >;
+  for (const key of candidates) {
+    const icon = simpleIcons[key];
 
-  const icon = icons[key];
+    if (!icon?.path) continue;
 
-  if (!icon) return null;
+    return {
+      title: icon.title,
+      path: icon.path,
+      hex: icon.hex,
+      themeAware:
+        iconSlug.toLowerCase() === "nextjs" ||
+        iconSlug.toLowerCase() === "angular" ||
+        iconSlug.toLowerCase() === "vercel",
+    };
+  }
 
-  return {
-    title: icon.title,
-    path: icon.path,
-    hex: icon.hex,
-    themeAware: iconSlug === "nextjs" || iconSlug === "angular",
-  };
+  return null;
 }

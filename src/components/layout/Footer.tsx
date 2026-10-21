@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -31,33 +32,46 @@ export function Footer() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-12 gap-x-4 sm:gap-x-8 gap-y-8 sm:gap-y-10 lg:gap-x-10 mb-10 sm:mb-12 lg:mb-14">
-
           {/* Column 1: Brand Information */}
           <div className="col-span-2 min-w-0 md:col-span-1 md:col-start-1 md:row-start-1 lg:col-span-4 lg:col-start-auto lg:row-start-auto">
+            {/* Company Logo and Wordmark */}
             <Link
               href="/"
-              className="inline-flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A] rounded-lg"
-              aria-label="KrutiKalpa Solutions Home"
+              className="inline-flex items-center justify-center gap-2.5 group rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
+              aria-label="KrutiKalpa Solutions Private Limited Home"
             >
+              {/* Existing logo symbol */}
               <div className="relative w-9 h-9 sm:w-10 sm:h-10 shrink-0 overflow-hidden">
                 <Image
                   src="/images/logo/K_LOGO.png"
-                  alt="KrutiKalpa Solutions logo"
+                  alt="KrutiKalpa logo symbol"
                   fill
                   sizes="40px"
                   className="object-contain"
                 />
               </div>
 
-              <div className="flex flex-col">
-                <div className="flex items-center text-lg sm:text-xl font-bold tracking-tight leading-none">
-                  <span className="text-zinc-950 dark:text-white">Kruti</span>
-                  <span className="text-[#FF6B0A]">Kalpa</span>
+              {/* Centered Company Name */}
+              <div className="flex min-w-0 flex-col items-center justify-center">
+                <div className="flex items-baseline justify-center whitespace-nowrap text-lg sm:text-xl font-medium tracking-[-0.045em] leading-none">
+                  <span className="text-[#071B49] dark:text-white transition-colors">
+                    Kruti
+                  </span>
+                  <span className="text-[#E87500] transition-colors">
+                    Kalpa
+                  </span>
                 </div>
 
-                <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-                  Solutions
-                </span>
+                {/* Centered Subtitle with Horizontal Lines */}
+                <div className="mt-1 flex w-full items-center justify-center gap-1 sm:gap-1.5">
+                  <span className="h-px flex-1 bg-[#071B49] dark:bg-zinc-400" />
+
+                  <span className="whitespace-nowrap text-[8px] sm:text-[9px] font-medium uppercase tracking-[0.09em] text-zinc-800 dark:text-zinc-200">
+                    Solutions Pvt. Ltd.
+                  </span>
+
+                  <span className="h-px flex-1 bg-[#071B49] dark:bg-zinc-400" />
+                </div>
               </div>
             </Link>
 
@@ -89,7 +103,8 @@ export function Footer() {
                 <Facebook className="h-4 w-4" />
               </a>
 
-              {/* <a
+              {/*
+              <a
                 href={companyData.social.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -97,9 +112,9 @@ export function Footer() {
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all hover:border-[#FF6B0A] hover:bg-[#FF6B0A] hover:text-white dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400 dark:hover:border-[#FF6B0A] dark:hover:bg-[#FF6B0A] dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
               >
                 <Twitter className="h-4 w-4" />
-              </a> */}
+              </a>
 
-              {/* <a
+              <a
                 href={companyData.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -107,9 +122,9 @@ export function Footer() {
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all hover:border-[#FF6B0A] hover:bg-[#FF6B0A] hover:text-white dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400 dark:hover:border-[#FF6B0A] dark:hover:bg-[#FF6B0A] dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
               >
                 <Instagram className="h-4 w-4" />
-              </a> */}
+              </a>
 
-              {/* <a
+              <a
                 href={companyData.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -117,7 +132,8 @@ export function Footer() {
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all hover:border-[#FF6B0A] hover:bg-[#FF6B0A] hover:text-white dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400 dark:hover:border-[#FF6B0A] dark:hover:bg-[#FF6B0A] dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
               >
                 <Youtube className="h-4 w-4" />
-              </a> */}
+              </a>
+              */}
             </div>
 
             {/* Company CIN */}

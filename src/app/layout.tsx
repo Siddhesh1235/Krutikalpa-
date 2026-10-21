@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
         url: "https://krutikalpa.com/images/hero/KrutiKalpa_Solutions_Room.png",
         width: 1200,
         height: 630,
-        alt: "KrutiKalpa Solutions — Software & AI Development Company in Pune",
+        alt: "KrutiKalpa Solutions â€” Software & AI Development Company in Pune",
       },
     ],
   },
@@ -98,7 +98,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="light scroll-smooth" suppressHydrationWarning>
       <head>
         <link
           rel="icon"
@@ -117,13 +117,13 @@ export default function RootLayout({
               (function() {
                 try {
                   var saved = localStorage.getItem('krutikalpa-theme');
-                  var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+                  var theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
                   document.documentElement.classList.remove('dark', 'light');
                   document.documentElement.classList.add(theme);
                   document.documentElement.setAttribute('data-theme', theme);
                   document.documentElement.style.colorScheme = theme;
                 } catch (e) {
-                  document.documentElement.classList.add('dark');
+                  document.documentElement.classList.add('light');
                 }
               })();
             `,
@@ -143,3 +143,4 @@ export default function RootLayout({
     </html>
   );
 }
+

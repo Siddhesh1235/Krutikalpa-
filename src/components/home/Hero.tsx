@@ -222,7 +222,7 @@ export function Hero() {
     </div>
 
     {/* Floating Card 4: Websites */}
-    <div className="glass-panel animate-float-slow absolute bottom-3 right-0 sm:bottom-6 sm:right-1 md:bottom-10 md:right-2 lg:bottom-16 lg:right-2 xl:right-4 z-30 flex items-center gap-2 sm:gap-2.5 md:gap-3 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 md:p-3.5 shadow-xl">
+    <div className="glass-panel animate-float-reverse absolute bottom-3 right-0 sm:bottom-6 sm:right-1 md:bottom-10 md:right-2 lg:bottom-16 lg:right-2 xl:right-4 z-30 flex items-center gap-2 sm:gap-2.5 md:gap-3 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 md:p-3.5 shadow-xl">
       <div className="flex h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-lg sm:rounded-xl border border-[#FF6B0A]/30 bg-orange-500/10 text-[#FF6B0A]">
         <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
       </div>
@@ -237,7 +237,7 @@ export function Hero() {
     </div>
 
     {/* Floating Card 5: Mobile Apps */}
-    <div className="glass-panel animate-float-reverse absolute top-1/3 left-6 sm:left-6 md:left-10 lg:left-6 xl:left-6 z-30 flex -translate-y-1/2 items-center gap-2 sm:gap-2.5 md:gap-3 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 md:p-3.5 shadow-xl">
+    <div className="glass-panel animate-float-slow absolute top-1/3 left-6 sm:left-6 md:left-10 lg:left-6 xl:left-6 z-30 flex -translate-y-1/2 items-center gap-2 sm:gap-2.5 md:gap-3 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 md:p-3.5 shadow-xl">
       <div className="flex h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-lg sm:rounded-xl border border-[#FF6B0A]/30 bg-orange-500/10 text-[#FF6B0A]">
         <Smartphone className="h-4 w-4 sm:h-5 sm:w-5" />
       </div>

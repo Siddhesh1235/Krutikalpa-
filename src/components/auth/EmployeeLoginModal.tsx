@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { X, Lock, User, Eye, EyeOff, Loader2, AlertCircle, ShieldAlert } from "lucide-react";
@@ -78,32 +78,14 @@ export function EmployeeLoginModal({ isOpen, onClose }: EmployeeLoginModalProps)
 
     setIsLoading(true);
 
-    try {
-      const response = await fetch("/api/auth/employee-login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ employeeId: employeeId.trim(), password }),
-      });
+    // Simulate verification delay, then display the enterprise SSO/VPN notice.
+    await new Promise<void>((resolve) => setTimeout(resolve, 800));
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setErrorMessage(
-          data.error || "Authentication failed. Please verify your credentials or contact IT Helpdesk."
-        );
-      } else {
-        // If an authorized session is returned
-        if (data.redirectUrl) {
-          window.location.href = data.redirectUrl;
-        }
-      }
-    } catch {
-      setErrorMessage(
-        "Unable to reach the authentication service. Please check your network connection."
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    setErrorMessage(
+      "Enterprise SSO / LDAP directory requires authorized corporate network access. " +
+      "Please connect via KrutiKalpa VPN or contact IT Support."
+    );
+    setIsLoading(false);
   };
 
   return (
@@ -211,7 +193,7 @@ export function EmployeeLoginModal({ isOpen, onClose }: EmployeeLoginModalProps)
                   setPassword(e.target.value);
                   if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: undefined }));
                 }}
-                placeholder="••••••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 className={`w-full bg-zinc-50 dark:bg-[#121212] border rounded-xl pl-10 pr-11 py-2.5 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none transition-colors ${
                   fieldErrors.password
                     ? "border-red-500/60 focus:border-red-500 focus:ring-1 focus:ring-red-500"

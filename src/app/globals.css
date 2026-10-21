@@ -3,93 +3,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =========================================================
-   KRUTIKALPA — LIGHT MODE (DEFAULT)
-   ========================================================= */
-
+/* LIGHT MODE — DEFAULT */
 :root {
   color-scheme: light;
-
-  /* Backgrounds */
   --bg-page: #E5E7EB;
   --bg-page-alt: #F1F3F5;
   --bg-card: #FFFFFF;
   --bg-card-hover: #D9DDE3;
   --bg-surface: #F1F3F5;
-
-  /* Borders */
   --border-subtle: #D1D5DB;
   --border-card: #D1D5DB;
   --border-hover: rgba(255, 107, 10, 0.45);
-
-  /* Typography */
   --text-main: #171717;
   --text-muted: #52525B;
   --text-subtle: #71717A;
-
-  /* Brand */
   --orange-primary: #FF6B0A;
   --orange-secondary: #E85D04;
-
-  /* Glass */
   --glass-bg: rgba(255, 255, 255, 0.90);
   --glass-border: #D1D5DB;
   --glass-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
-
-  /* Navbar */
   --nav-bg: rgba(229, 231, 235, 0.92);
   --nav-border: #D1D5DB;
-
-  /* Forms */
   --input-bg: #FFFFFF;
   --input-border: #D1D5DB;
 }
 
-/* =========================================================
-   DARK MODE
-   ========================================================= */
-
+/* DARK MODE */
 html.dark {
   color-scheme: dark;
-
   --bg-page: #080808;
   --bg-page-alt: #0D0D0D;
   --bg-card: #101010;
   --bg-card-hover: #1A1A1A;
   --bg-surface: #0D0D0D;
-
-  /* Borders */
   --border-subtle: #262626;
   --border-card: #262626;
   --border-hover: rgba(255, 107, 10, 0.35);
-
-  /* Typography */
   --text-main: #FAFAFA;
   --text-muted: #A1A1AA;
   --text-subtle: #71717A;
-
-  /* Brand */
   --orange-primary: #FF6B0A;
   --orange-secondary: #E85D04;
-
-  /* Glass */
   --glass-bg: rgba(16, 16, 16, 0.85);
   --glass-border: #262626;
   --glass-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-
-  /* Navbar */
   --nav-bg: rgba(8, 8, 8, 0.92);
   --nav-border: #262626;
-
-  /* Forms */
   --input-bg: #141414;
   --input-border: #262626;
 }
 
-/* =========================================================
-   BASE STYLES
-   ========================================================= */
-
+/* BASE */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -99,51 +63,34 @@ html.dark {
 html {
   min-height: 100%;
   scroll-behavior: smooth;
-  background-color: var(--bg-page);
+  background: var(--bg-page);
   color: var(--text-main);
 }
 
-/* Support both theme classes */
 html.light {
   color-scheme: light;
 }
 
-html.dark {
-  color-scheme: dark;
-}
-
 body {
   min-height: 100vh;
-  margin: 0;
   overflow-x: hidden;
   background-color: var(--bg-page);
   color: var(--text-main);
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
-  background-color: #FF6B0A;
+  background: #FF6B0A;
   color: #FFFFFF;
 }
 
-/* =========================================================
-   SCROLLBARS
-   ========================================================= */
-
+/* SCROLLBARS */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -165,19 +112,14 @@ html.light ::-webkit-scrollbar-thumb {
   background: #FF6B0A;
 }
 
-/* =========================================================
-   GLASSMORPHIC CARDS
-   ========================================================= */
-
+/* GLASS CARDS */
 .glass-panel {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
-  transition:
-    background-color 0.25s ease,
-    border-color 0.3s ease,
+  -webkit-backdrop-filter: blur(16px);
+  transition: background-color 0.25s ease, border-color 0.3s ease,
     box-shadow 0.3s ease;
 }
 
@@ -186,50 +128,29 @@ html.light ::-webkit-scrollbar-thumb {
   box-shadow: 0 10px 30px -10px rgba(255, 107, 10, 0.2);
 }
 
-/* =========================================================
-   ORANGE GRADIENT TEXT
-   ========================================================= */
-
+/* GRADIENT TEXT */
 .text-gradient-orange {
-  background: linear-gradient(
-    135deg,
-    #FFFFFF 0%,
-    #FF6B0A 60%,
-    #E85D04 100%
-  );
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FF6B0A 60%, #E85D04 100%);
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 html.light .text-gradient-orange {
-  background: linear-gradient(
-    135deg,
-    #171717 0%,
-    #FF6B0A 60%,
-    #E85D04 100%
-  );
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, #171717 0%, #FF6B0A 60%, #E85D04 100%);
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-orange-pure {
-  background: linear-gradient(
-    135deg,
-    #FF8C38 0%,
-    #FF6B0A 50%,
-    #E85D04 100%
-  );
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, #FF8C38 0%, #FF6B0A 50%, #E85D04 100%);
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* =========================================================
-   ORANGE GRADIENT BUTTON
-   ========================================================= */
-
+/* ORANGE BUTTON */
 .btn-orange-gradient {
   display: inline-flex;
   align-items: center;
@@ -244,22 +165,15 @@ html.light .text-gradient-orange {
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition:
-    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.25s ease,
-    background 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .btn-orange-gradient:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px -2px rgba(255, 107, 10, 0.6);
-  background: linear-gradient(135deg, #FF8C38 0%, #FF6B0A 100%);
 }
 
-/* =========================================================
-   OUTLINE BUTTON
-   ========================================================= */
-
+/* OUTLINE BUTTON */
 .btn-outline-dark {
   display: inline-flex;
   align-items: center;
@@ -273,7 +187,7 @@ html.light .text-gradient-orange {
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s ease;
 }
 
 html.light .btn-outline-dark {
@@ -285,7 +199,6 @@ html.light .btn-outline-dark {
 .btn-outline-dark:hover {
   transform: translateY(-2px);
   border-color: rgba(255, 107, 10, 0.4);
-  background: rgba(255, 255, 255, 0.08);
 }
 
 html.light .btn-outline-dark:hover {
@@ -293,29 +206,17 @@ html.light .btn-outline-dark:hover {
   background: #D9DDE3;
 }
 
-/* =========================================================
-   SUBTLE GRID BACKDROP
-   ========================================================= */
-
+/* GRID PATTERN */
 .bg-grid-pattern {
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.08) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 html.light .bg-grid-pattern {
-  background-image: radial-gradient(
-    rgba(0, 0, 0, 0.07) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px);
 }
 
-/* =========================================================
-   ORANGE AMBIENT GLOW
-   ========================================================= */
-
+/* AMBIENT GLOW */
 .orange-glow-blur {
   position: absolute;
   z-index: 0;
@@ -324,23 +225,20 @@ html.light .bg-grid-pattern {
   pointer-events: none;
 }
 
-/* =========================================================
-   REUSABLE THEME-AWARE CLASSES
-   ========================================================= */
-
+/* THEME-AWARE UTILITIES */
 .theme-page {
-  background-color: var(--bg-page);
+  background: var(--bg-page);
   color: var(--text-main);
 }
 
 .theme-section {
-  background-color: var(--bg-page-alt);
+  background: var(--bg-page-alt);
   color: var(--text-main);
 }
 
 .theme-card {
   border: 1px solid var(--border-card);
-  background-color: var(--bg-card);
+  background: var(--bg-card);
   color: var(--text-main);
 }
 
@@ -358,12 +256,12 @@ html.light .bg-grid-pattern {
 
 .theme-navbar {
   border-color: var(--nav-border);
-  background-color: var(--nav-bg);
+  background: var(--nav-bg);
 }
 
 .theme-input {
   border: 1px solid var(--input-border);
-  background-color: var(--input-bg);
+  background: var(--input-bg);
   color: var(--text-main);
 }
 
@@ -371,11 +269,7 @@ html.light .bg-grid-pattern {
   color: var(--text-subtle);
 }
 
-/* =========================================================
-   LIGHT MODE — DARK BACKGROUND OVERRIDES
-   Preserve compatibility with existing dark-themed components.
-   ========================================================= */
-
+/* LIGHT MODE: DARK BACKGROUND OVERRIDES */
 html.light .bg-black,
 html.light .bg-zinc-950,
 html.light .bg-neutral-950 {
@@ -410,7 +304,6 @@ html.light .bg-\[\#121212\] {
   background-color: var(--bg-page-alt) !important;
 }
 
-/* Existing translucent backgrounds */
 html.light .bg-white\/\[0\.02\],
 html.light .bg-white\/\[0\.03\],
 html.light .bg-white\/\[0\.04\],
@@ -421,7 +314,6 @@ html.light .bg-white\/\[0\.1\] {
   background-color: rgba(0, 0, 0, 0.03) !important;
 }
 
-/* Existing dark-theme borders */
 html.light .border-white\/\[0\.05\],
 html.light .border-white\/\[0\.06\],
 html.light .border-white\/\[0\.08\],
@@ -431,7 +323,6 @@ html.light .border-white\/\[0\.15\] {
   border-color: var(--border-subtle) !important;
 }
 
-/* Existing dark-theme text */
 html.light .text-white {
   color: var(--text-main) !important;
 }
@@ -466,7 +357,7 @@ html.light .brand-logo-text {
   color: #171717 !important;
 }
 
-/* Navbar background compatibility */
+/* Navbar compatibility */
 html.light header.navbar,
 html.light .navbar {
   background-color: var(--nav-bg);
@@ -494,10 +385,20 @@ html.light select:focus {
   outline-color: var(--orange-primary);
 }
 
-/* =========================================================
-   ACCESSIBILITY
-   ========================================================= */
+/* CORPORATE IDENTITY: TEXT ALWAYS WHITE IN BOTH THEMES */
+.corporate-identity-overlay,
+.corporate-identity-overlay * {
+  color: #FFFFFF !important;
+}
 
+/* CIN accent and location icon remain orange */
+.corporate-identity-overlay .corporate-identity-accent,
+.corporate-identity-overlay .corporate-identity-accent *,
+.corporate-identity-overlay .corporate-identity-location-icon {
+  color: #FF6B0A !important;
+}
+
+/* ACCESSIBILITY */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

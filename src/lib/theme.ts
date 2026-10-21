@@ -1,7 +1,7 @@
-export type Theme = "dark" | "light";
+﻿export type Theme = "dark" | "light";
 
 export const THEME_STORAGE_KEY = "krutikalpa-theme";
-export const DEFAULT_THEME: Theme = "dark";
+export const DEFAULT_THEME: Theme = "light";
 
 export function getInitialTheme(): Theme {
   if (typeof window === "undefined") {
@@ -19,3 +19,4 @@ export function getInitialTheme(): Theme {
 
   return DEFAULT_THEME;
 }
+

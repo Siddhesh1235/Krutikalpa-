@@ -1,243 +1,290 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, Lock, User, Eye, EyeOff, Loader2, AlertCircle, ShieldAlert } from "lucide-react";
+import Image from "next/image";
+import {
+  X,
+  Mail,
+  ExternalLink,
+  ShieldCheck,
+  AlertCircle,
+  ArrowRight,
+} from "lucide-react";
 
 interface EmployeeLoginModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function EmployeeLoginModal({ isOpen, onClose }: EmployeeLoginModalProps) {
-  const [employeeId, setEmployeeId] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<{ employeeId?: string; password?: string }>({});
+const ZOHO_BASE_URL =
+  "https://accounts.zoho.in/signin?servicename=ZohoHome&signupurl=https://www.zoho.com/signup.html";
 
-  const employeeIdInputRef = useRef<HTMLInputElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
+export function EmployeeLoginModal({
+  isOpen,
+  onClose,
+}: EmployeeLoginModalProps) {
+  const [empUser, setEmpUser] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Focus input and lock body scroll when modal opens.
   useEffect(() => {
-    if (isOpen) {
-      setErrorMessage(null);
-      setFieldErrors({});
-      // Focus on input when modal opens
-      const timer = setTimeout(() => {
-        employeeIdInputRef.current?.focus();
-      }, 100);
-      return () => clearTimeout(timer);
+    if (!isOpen) {
+      return;
     }
+
+    setError(null);
+
+    const timer = window.setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
-  // Handle escape key
+  // Handle ESC key to close the modal.
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isOpen) {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
         onClose();
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
-  // Prevent background scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  if (!isOpen) {
+    return null;
+  }
 
-  if (!isOpen) return null;
+  const trimmed = empUser.trim();
 
-  const validate = () => {
-    const errors: { employeeId?: string; password?: string } = {};
-    if (!employeeId.trim()) {
-      errors.employeeId = "Employee ID is required";
+  const previewEmail =
+    trimmed.length > 0 && !trimmed.includes("@")
+      ? `${trimmed}@krutikalpa.com`
+      : trimmed.length > 0
+        ? trimmed
+        : null;
+
+  const normalizeEmployeeEmail = (value: string): string => {
+    const user = value.trim();
+
+    if (!user) {
+      return "";
     }
-    if (!password) {
-      errors.password = "Password is required";
-    } else if (password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
+
+    // Append the company domain only when the user enters a username.
+    if (!user.includes("@")) {
+      return `${user}@krutikalpa.com`;
     }
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
+
+    // Keep the complete email address.
+    return user;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const goToKrutikalpaMail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrorMessage(null);
+    setError(null);
 
-    if (!validate()) return;
+    const email = normalizeEmployeeEmail(empUser);
 
-    setIsLoading(true);
+    if (!email) {
+      setError("Please enter your employee email address or username.");
+      inputRef.current?.focus();
+      return;
+    }
 
-    // Simulate verification delay, then display the enterprise SSO/VPN notice.
-    await new Promise<void>((resolve) => setTimeout(resolve, 800));
+    // Basic email format validation.
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    setErrorMessage(
-      "Enterprise SSO / LDAP directory requires authorized corporate network access. " +
-      "Please connect via KrutiKalpa VPN or contact IT Support."
-    );
-    setIsLoading(false);
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid employee email address.");
+      inputRef.current?.focus();
+      return;
+    }
+
+    // HTML code pramanech exact URL aani LOGIN_ID parameter tayar karne
+    const encodedEmail = encodeURIComponent(email);
+    const targetUrl = `${ZOHO_BASE_URL}&LOGIN_ID=${encodedEmail}&login_id=${encodedEmail}`;
+
+    // Navin browser tab madhe Zoho sign-in page open karne
+    const newTab = window.open(targetUrl, "_blank");
+
+    if (!newTab) {
+      // Jar browser ne popup block kela tar HTML GET form dware submit karne
+      const form = document.createElement("form");
+      form.method = "GET";
+      form.action = "https://accounts.zoho.in/signin";
+      form.target = "_blank";
+
+      const params: Record<string, string> = {
+        servicename: "ZohoHome",
+        signupurl: "https://www.zoho.com/signup.html",
+        LOGIN_ID: email,
+      };
+
+      Object.entries(params).forEach(([key, val]) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = val;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    }
+
+    onClose();
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="emp-webmail-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md animate-in fade-in duration-200"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
         }
       }}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="employee-login-title"
     >
-      <div
-        ref={modalRef}
-        className="relative w-full max-w-md bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-white/[0.1] rounded-2xl shadow-2xl p-6 sm:p-8 overflow-hidden transition-colors"
-      >
-        {/* Decorative ambient gradient */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#FF6B0A]/10 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="relative w-full max-w-sm rounded-2xl bg-white dark:bg-[#0E0E0E] border border-zinc-200 dark:border-white/[0.1] shadow-2xl p-6 sm:p-7 text-zinc-900 dark:text-white transition-all">
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-xl text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white bg-zinc-100 hover:bg-zinc-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-zinc-200 dark:border-white/[0.08] transition-colors focus:outline-none focus:ring-2 focus:ring-[#FF6B0A]"
-          aria-label="Close login modal"
+          aria-label="Close modal"
+          className="absolute top-4 right-4 p-2 rounded-xl text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#FF6B0A]"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Modal Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B0A] to-[#E85D04] p-[2px] shadow-lg shadow-[#FF6B0A]/30 shrink-0">
-            <div className="w-full h-full bg-[#0A0A0A] rounded-[10px] flex items-center justify-center">
-              <Lock className="w-4 h-4 text-[#FF6B0A]" />
-            </div>
+        {/* Header and Logo */}
+        <div className="text-center mb-5">
+          <div className="relative w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] p-2 flex items-center justify-center shadow-sm">
+            <Image
+              src="/images/logo/K_LOGO.png"
+              alt="KrutiKalpa Solutions"
+              width={36}
+              height={36}
+              className="object-contain"
+              priority
+            />
           </div>
-          <div>
-            <h2 id="employee-login-title" className="text-xl font-bold text-zinc-950 dark:text-white tracking-tight">
-              Employee Portal
-            </h2>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
-              Authorized KrutiKalpa staff and engineer access
-            </p>
-          </div>
+
+          <h3
+            id="emp-webmail-title"
+            className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white"
+          >
+            Employee Webmail
+          </h3>
+
+          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+            Sign in with your company account to access mailbox.
+          </p>
         </div>
 
-        {/* Error Alert Box */}
-        {errorMessage && (
-          <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-300 dark:border-red-500/30 flex items-start gap-3 text-red-800 dark:text-red-200 text-xs">
-            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
-            <span className="leading-relaxed">{errorMessage}</span>
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-2 text-xs text-red-600 dark:text-red-400 leading-relaxed">
+            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <span>{error}</span>
           </div>
         )}
 
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Employee ID */}
+        {/* Form */}
+        <form onSubmit={goToKrutikalpaMail} className="space-y-4">
           <div>
-            <label htmlFor="employee-id-input" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
-              Employee ID
+            <label
+              htmlFor="empUser"
+              className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5"
+            >
+              Employee Email / Username:
             </label>
+
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
-                <User className="w-4 h-4" />
-              </div>
               <input
-                ref={employeeIdInputRef}
-                id="employee-id-input"
+                ref={inputRef}
                 type="text"
-                value={employeeId}
+                id="empUser"
+                value={empUser}
                 onChange={(e) => {
-                  setEmployeeId(e.target.value);
-                  if (fieldErrors.employeeId) setFieldErrors((prev) => ({ ...prev, employeeId: undefined }));
+                  setEmpUser(e.target.value);
+                  if (error) {
+                    setError(null);
+                  }
                 }}
-                placeholder="e.g. KK-1082"
-                className={`w-full bg-zinc-50 dark:bg-[#121212] border rounded-xl pl-10 pr-4 py-2.5 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none transition-colors ${
-                  fieldErrors.employeeId
-                    ? "border-red-500/60 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    : "border-zinc-300 dark:border-white/[0.1] focus:border-[#FF6B0A] focus:ring-1 focus:ring-[#FF6B0A]"
-                }`}
+                placeholder="e.g. name@krutikalpa.com"
+                required
                 autoComplete="username"
+                autoCapitalize="none"
+                spellCheck={false}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-zinc-50 dark:bg-white/[0.04] border border-zinc-300 dark:border-white/[0.12] text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#FF6B0A] focus:border-transparent transition-all"
               />
+
+              <Mail className="absolute left-3.5 top-3 w-4 h-4 text-zinc-400 dark:text-zinc-500 pointer-events-none" />
             </div>
-            {fieldErrors.employeeId && (
-              <p className="mt-1 text-xs text-red-500 dark:text-red-400">{fieldErrors.employeeId}</p>
+
+            {/* Live Email Preview */}
+            {previewEmail ? (
+              <p className="mt-1.5 text-xs text-[#FF6B0A] font-medium flex items-center gap-1">
+                <ArrowRight className="w-3 h-3 shrink-0" />
+                <span className="truncate">
+                  Redirecting as: <strong>{previewEmail}</strong>
+                </span>
+              </p>
+            ) : (
+              <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
+                युजरनेम टाकल्यास (उदा.{" "}
+                <span className="font-mono text-zinc-700 dark:text-zinc-300">
+                  sanket.barhate
+                </span>
+                ) आपोआप{" "}
+                <span className="font-mono text-[#FF6B0A]">
+                  @krutikalpa.com
+                </span>{" "}
+                जोडले जाईल.
+              </p>
             )}
           </div>
 
-          {/* Password */}
-          <div>
-            <label htmlFor="password-input" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
-              Password
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
-                <Lock className="w-4 h-4" />
-              </div>
-              <input
-                id="password-input"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: undefined }));
-                }}
-                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
-                className={`w-full bg-zinc-50 dark:bg-[#121212] border rounded-xl pl-10 pr-11 py-2.5 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none transition-colors ${
-                  fieldErrors.password
-                    ? "border-red-500/60 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    : "border-zinc-300 dark:border-white/[0.1] focus:border-[#FF6B0A] focus:ring-1 focus:ring-[#FF6B0A]"
-                }`}
-                autoComplete="current-password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300 focus:outline-none"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-            {fieldErrors.password && (
-              <p className="mt-1 text-xs text-red-500 dark:text-red-400">{fieldErrors.password}</p>
-            )}
+          {/* Security Notice */}
+          <div className="p-2.5 rounded-xl bg-[#FF6B0A]/10 border border-[#FF6B0A]/20 flex items-start gap-2 text-[11px] text-zinc-700 dark:text-zinc-300">
+            <ShieldCheck className="w-4 h-4 text-[#FF6B0A] shrink-0 mt-0.5" />
+            <span>
+              पासवर्ड सुरक्षितपणे अधिकृत Zoho Webmail पेजवर टाकायचा आहे.
+              पासवर्ड वेबसाईटवर घेतला जात नाही.
+            </span>
           </div>
 
           {/* Submit Button */}
-          <div className="pt-2">
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full btn-orange-gradient py-2.5 text-sm font-semibold text-white rounded-xl shadow-lg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Verifying Credentials...</span>
-                </>
-              ) : (
-                <span>Log In to Portal</span>
-              )}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-2.5 px-4 rounded-xl font-semibold text-white bg-[#FF6B0A] hover:bg-[#EA580C] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#FF6B0A]/20 focus:outline-none focus:ring-2 focus:ring-[#FF6B0A]"
+          >
+            <span>Sign In to Mailbox</span>
+            <ExternalLink className="w-4 h-4" />
+          </button>
         </form>
 
-        {/* Security Notice Footer */}
-        <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-white/[0.08] flex items-center gap-2 text-[11px] text-zinc-600 dark:text-zinc-500">
-          <ShieldAlert className="w-4 h-4 text-[#FF6B0A] shrink-0" />
-          <span>Restricted system. Access logged and monitored under DPDP governance.</span>
+        {/* Footer */}
+        <div className="mt-5 pt-3 border-t border-zinc-200 dark:border-white/[0.08] text-center">
+          <p className="text-[11px] text-zinc-500 dark:text-zinc-500">
+            KrutiKalpa Corporate Mailbox (Zoho)
+          </p>
         </div>
       </div>
     </div>

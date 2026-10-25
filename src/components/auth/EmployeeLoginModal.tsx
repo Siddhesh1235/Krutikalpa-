@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import {
   X,
   Mail,
   ExternalLink,
-  ShieldCheck,
   AlertCircle,
-  ArrowRight,
 } from "lucide-react";
 
 interface EmployeeLoginModalProps {
@@ -27,22 +25,27 @@ const ZOHO_BASE_URL =
   "&serviceurl=" +
   encodeURIComponent(ZOHO_WORKPLACE_DASHBOARD);
 
+const CLOSE_ANIMATION_DURATION = 4000;
+
 export function EmployeeLoginModal({
   isOpen,
   onClose,
 }: EmployeeLoginModalProps) {
   const [empUser, setEmpUser] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Focus input and lock body scroll when modal opens.
+  // Reset modal state and focus input when modal opens.
   useEffect(() => {
     if (!isOpen) {
       return;
     }
 
     setError(null);
+    setIsClosing(false);
 
     const timer = window.setTimeout(() => {
       inputRef.current?.focus();
@@ -53,14 +56,34 @@ export function EmployeeLoginModal({
     return () => {
       window.clearTimeout(timer);
       document.body.style.overflow = "";
+
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
     };
   }, [isOpen]);
 
-  // Handle ESC key to close the modal.
+  // Close modal with return-to-top animation.
+  const handleClose = useCallback(() => {
+    if (isClosing) {
+      return;
+    }
+
+    setIsClosing(true);
+
+    closeTimerRef.current = window.setTimeout(() => {
+      closeTimerRef.current = null;
+      setIsClosing(false);
+      onClose();
+    }, CLOSE_ANIMATION_DURATION);
+  }, [isClosing, onClose]);
+
+  // Handle ESC key.
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
-        onClose();
+        handleClose();
       }
     };
 
@@ -69,7 +92,7 @@ export function EmployeeLoginModal({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) {
     return null;
@@ -89,18 +112,20 @@ export function EmployeeLoginModal({
     return user;
   };
 
-  const trimmed = empUser.trim();
   const hasAtSymbol = empUser.includes("@");
-  const previewEmail = trimmed.length > 0 ? normalizeEmployeeEmail(trimmed) : null;
 
-  const goToKrutikalpaMail = (e: React.FormEvent<HTMLFormElement>) => {
+  const goToKrutikalpaMail = (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     setError(null);
 
     const email = normalizeEmployeeEmail(empUser);
 
     if (!email) {
-      setError("Please enter your employee username or email address.");
+      setError(
+        "Please enter your employee username or email address."
+      );
       inputRef.current?.focus();
       return;
     }
@@ -108,19 +133,28 @@ export function EmployeeLoginModal({
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      setError("Please enter a valid employee username or email address.");
+      setError(
+        "Please enter a valid employee username or email address."
+      );
       inputRef.current?.focus();
       return;
     }
 
-    // Zoho auto-fill + post-login redirect to Workplace Dashboard
+    // Redirect to Zoho Workplace.
+    // Zoho may not support pre-filling the email on its sign-in page.
     const encodedEmail = encodeURIComponent(email);
-    const targetUrl = `${ZOHO_BASE_URL}&LOGIN_ID=${encodedEmail}&login_id=${encodedEmail}`;
+
+    const targetUrl =
+      `${ZOHO_BASE_URL}` +
+      `&LOGIN_ID=${encodedEmail}` +
+      `&login_id=${encodedEmail}`;
 
     const newTab = window.open(targetUrl, "_blank");
 
+    // Fallback if popup is blocked.
     if (!newTab) {
       const form = document.createElement("form");
+
       form.method = "GET";
       form.action = "https://accounts.zoho.in/signin";
       form.target = "_blank";
@@ -134,9 +168,11 @@ export function EmployeeLoginModal({
 
       Object.entries(params).forEach(([key, val]) => {
         const input = document.createElement("input");
+
         input.type = "hidden";
         input.name = key;
         input.value = val;
+
         form.appendChild(input);
       });
 
@@ -145,7 +181,7 @@ export function EmployeeLoginModal({
       document.body.removeChild(form);
     }
 
-    onClose();
+    handleClose();
   };
 
   return (
@@ -153,18 +189,29 @@ export function EmployeeLoginModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="emp-webmail-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md animate-in fade-in duration-200"
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md ${
+        isClosing
+          ? "login-overlay-close"
+          : "login-overlay-open"
+      }`}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
-          onClose();
+          handleClose();
         }
       }}
     >
-      <div className="relative w-full max-w-sm rounded-2xl bg-white dark:bg-[#0E0E0E] border border-zinc-200 dark:border-white/[0.1] shadow-2xl p-6 sm:p-7 text-zinc-900 dark:text-white transition-all">
+      {/* Modal Panel */}
+      <div
+        className={`${
+          isClosing
+            ? "login-return-animation"
+            : "login-drop-animation"
+        } relative w-full max-w-sm rounded-2xl bg-white dark:bg-[#0E0E0E] border border-zinc-200 dark:border-white/[0.1] shadow-2xl p-6 sm:p-7 text-zinc-900 dark:text-white`}
+      >
         {/* Close Button */}
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Close modal"
           className="absolute top-4 right-4 p-2 rounded-xl text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#FF6B0A]"
         >
@@ -173,7 +220,7 @@ export function EmployeeLoginModal({
 
         {/* Header and Logo */}
         <div className="text-center mb-5">
-          <div className="relative w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.08] p-2 flex items-center justify-center shadow-sm">
+          <div className="relative w-12 h-12 mx-auto mb-3  p-2 flex items-center justify-center shadow-sm">
             <Image
               src="/images/logo/K_LOGO.png"
               alt="KrutiKalpa Solutions"
@@ -204,8 +251,11 @@ export function EmployeeLoginModal({
           </div>
         )}
 
-        {/* Form */}
-        <form onSubmit={goToKrutikalpaMail} className="space-y-4">
+        {/* Login Form */}
+        <form
+          onSubmit={goToKrutikalpaMail}
+          className="space-y-4"
+        >
           <div>
             <label
               htmlFor="empUser"
@@ -224,6 +274,7 @@ export function EmployeeLoginModal({
                 value={empUser}
                 onChange={(e) => {
                   setEmpUser(e.target.value);
+
                   if (error) {
                     setError(null);
                   }
@@ -238,33 +289,14 @@ export function EmployeeLoginModal({
                 } py-2.5 rounded-xl text-sm bg-zinc-50 dark:bg-white/[0.04] border border-zinc-300 dark:border-white/[0.12] text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#FF6B0A] focus:border-transparent transition-all`}
               />
 
-              {/* Input Box chya aatach @krutikalpa.com dakhavne */}
+              {/* Company Domain */}
               {!hasAtSymbol && (
                 <span className="absolute right-3 px-2 py-0.5 rounded-md bg-zinc-200/70 dark:bg-white/[0.08] text-xs font-mono font-medium text-[#FF6B0A] pointer-events-none select-none">
                   {COMPANY_DOMAIN}
                 </span>
               )}
             </div>
-
-            {/* Live Email Preview */}
-            {/* {previewEmail && (
-              <p className="mt-1.5 text-xs text-[#FF6B0A] font-medium flex items-center gap-1">
-                <ArrowRight className="w-3 h-3 shrink-0" />
-                <span className="truncate">
-                  Redirecting as: <strong>{previewEmail}</strong>
-                </span>
-              </p>
-            )} */}
           </div>
-
-          {/* Security Notice */}
-          {/* <div className="p-2.5 rounded-xl bg-[#FF6B0A]/10 border border-[#FF6B0A]/20 flex items-start gap-2 text-[11px] text-zinc-700 dark:text-zinc-300">
-            <ShieldCheck className="w-4 h-4 text-[#FF6B0A] shrink-0 mt-0.5" />
-            <span>
-              पासवर्ड सुरक्षितपणे अधिकृत Zoho Webmail पेजवर टाकायचा आहे.
-              पासवर्ड वेबसाईटवर घेतला जात नाही.
-            </span>
-          </div> */}
 
           {/* Submit Button */}
           <button

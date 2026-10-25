@@ -70,7 +70,7 @@ export const companyData: CompanyInfo = {
     alternatePhone: "",
     whatsapp: "+916364917021",
     address: {
-      building: "Kohinoor B-Zone, First Floor, 106",
+      building: "106 First Floor, Kohinoor B-Zone  ",
       street: "Baner Main Road",
       area: "Baner",
       city: "Pune",

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -11,14 +10,14 @@ import {
   Phone,
   Linkedin,
   Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
   ArrowUpRight,
 } from "lucide-react";
 
 import { companyData } from "@/data/company";
 import { quickLinks, footerServices, legalLinks } from "@/data/navigation";
+
+const WARDMITRA_PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details?id=in.spwhi.wardmitra";
 
 export function Footer() {
   return (
@@ -40,7 +39,6 @@ export function Footer() {
               className="inline-flex items-center justify-center gap-2.5 group rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
               aria-label="KrutiKalpa Solutions Private Limited Home"
             >
-              {/* Existing logo symbol */}
               <div className="relative w-9 h-9 sm:w-10 sm:h-10 shrink-0 overflow-hidden">
                 <Image
                   src="/images/logo/K_LOGO.png"
@@ -51,18 +49,18 @@ export function Footer() {
                 />
               </div>
 
-              {/* Centered Company Name */}
+              {/* Company Name */}
               <div className="flex min-w-0 flex-col items-center justify-center">
                 <div className="flex items-baseline justify-center whitespace-nowrap text-lg sm:text-xl font-medium tracking-[-0.045em] leading-none">
                   <span className="text-[#071B49] dark:text-white transition-colors">
                     Kruti
                   </span>
+
                   <span className="text-[#E87500] transition-colors">
                     Kalpa
                   </span>
                 </div>
 
-                {/* Centered Subtitle with Horizontal Lines */}
                 <div className="mt-1 flex w-full items-center justify-center gap-1 sm:gap-1.5">
                   <span className="h-px flex-1 bg-[#071B49] dark:bg-zinc-400" />
 
@@ -75,6 +73,7 @@ export function Footer() {
               </div>
             </Link>
 
+            {/* Company Description */}
             <p className="mt-4 max-w-md text-[13px] sm:text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               Turning ideas into digital solutions. We design, build and scale
               transformative web applications, AI systems and enterprise
@@ -102,38 +101,6 @@ export function Footer() {
               >
                 <Facebook className="h-4 w-4" />
               </a>
-
-              {/*
-              <a
-                href={companyData.social.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter / X"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all hover:border-[#FF6B0A] hover:bg-[#FF6B0A] hover:text-white dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400 dark:hover:border-[#FF6B0A] dark:hover:bg-[#FF6B0A] dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
-              >
-                <Twitter className="h-4 w-4" />
-              </a>
-
-              <a
-                href={companyData.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all hover:border-[#FF6B0A] hover:bg-[#FF6B0A] hover:text-white dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400 dark:hover:border-[#FF6B0A] dark:hover:bg-[#FF6B0A] dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-
-              <a
-                href={companyData.social.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all hover:border-[#FF6B0A] hover:bg-[#FF6B0A] hover:text-white dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-400 dark:hover:border-[#FF6B0A] dark:hover:bg-[#FF6B0A] dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
-              >
-                <Youtube className="h-4 w-4" />
-              </a>
-              */}
             </div>
 
             {/* Company CIN */}
@@ -193,20 +160,24 @@ export function Footer() {
 
             <ul className="space-y-4 text-[13px] sm:text-sm leading-5 text-zinc-600 dark:text-zinc-400">
               {/* Address */}
-              <li className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#FF6B0A]" />
+<li className="flex items-start gap-2.5">
+  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#FF6B0A]" />
 
-                <span className="min-w-0">
-                  {companyData.contact.address.city},{" "}
-                  {companyData.contact.address.state},{" "}
-                  {companyData.contact.address.country}
+  <div className="min-w-0">
+    {/* Building Address - First */}
+    <p className="text-[11px] sm:text-xs leading-5 text-zinc-500 dark:text-zinc-500">
+      {companyData.contact.address.building},{" "}
+      {companyData.contact.address.area}
+    </p>
 
-                  <span className="mt-1 block text-[11px] sm:text-xs leading-5 text-zinc-500 dark:text-zinc-500">
-                    {companyData.contact.address.building},{" "}
-                    {companyData.contact.address.area}
-                  </span>
-                </span>
-              </li>
+    {/* City, State, Country - Below */}
+    <p className="mt-1 text-[13px] sm:text-sm leading-5 text-zinc-600 dark:text-zinc-400">
+      {companyData.contact.address.city},{" "}
+      {companyData.contact.address.state},{" "}
+      {companyData.contact.address.country}
+    </p>
+  </div>
+</li>
 
               {/* Email */}
               <li className="flex items-start gap-2.5">
@@ -257,10 +228,13 @@ export function Footer() {
 
             {/* WardMitra Attribution */}
             <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-[11px] sm:text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-              <Link
-                href="/portfolio/#wardmitra-digital-governance"
-                className="inline-flex items-center gap-1.5 font-semibold text-[#FF6B0A] hover:underline"
-                aria-label="WardMitra developed by KrutiKalpa Solutions"
+              <a
+                href={WARDMITRA_PLAY_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-semibold text-[#FF6B0A] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A] rounded-sm"
+                aria-label="Download WardMitra from Google Play Store"
+                title="Download WardMitra from Google Play Store"
               >
                 <span className="relative inline-flex items-center justify-center w-5 h-5 rounded bg-[#0F172A] p-0.5 border border-zinc-700/40">
                   <Image
@@ -271,8 +245,9 @@ export function Footer() {
                     className="object-contain"
                   />
                 </span>
+
                 <span>WardMitra</span>
-              </Link>
+              </a>
 
               <span>developed by</span>
 

@@ -9,14 +9,23 @@ export interface PortfolioProject {
   tags: string[];
   image: string;
   isFeatured: boolean;
+
+  // Optional mobile app information
+  appInfo?: string;
+  appFeatures?: string[];
+  playStoreUrl?: string;
+  platform?: string;
+
   metrics: {
     stat: string;
     label: string;
   }[];
+
   challenge: string;
   solution: string;
   results: string[];
   technologies: string[];
+
   testimonial?: {
     quote: string;
     author: string;
@@ -51,7 +60,14 @@ export const portfolioProjects: PortfolioProject[] = [
       "Accelerated quarterly financial audit reconciliations from 14 days down to 4 hours.",
       "Seamlessly integrated with existing CNC machines and legacy accounting software.",
     ],
-    technologies: ["React", "Node.js", "PostgreSQL", "Redis", "Tailwind CSS", "Docker"],
+    technologies: [
+      "React",
+      "Node.js",
+      "PostgreSQL",
+      "Redis",
+      "Tailwind CSS",
+      "Docker",
+    ],
     testimonial: {
       quote:
         "KrutiKalpa built an exceptional web application for our manufacturing plants. Their team is professional, responsive, and truly understands complex operational requirements.",
@@ -59,6 +75,7 @@ export const portfolioProjects: PortfolioProject[] = [
       role: "VP of Operations, Precision Forge",
     },
   },
+
   {
     id: "b2b-ecommerce-platform",
     slug: "b2b-ecommerce-platform",
@@ -69,7 +86,8 @@ export const portfolioProjects: PortfolioProject[] = [
     client: "Apex Distribution Network",
     category: "Web Application",
     tags: ["Web Application", "E-commerce"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80",
     isFeatured: true,
     metrics: [
       { stat: "3.4x", label: "Increase in Order Volume" },
@@ -85,7 +103,14 @@ export const portfolioProjects: PortfolioProject[] = [
       "Maintained 99.99% uptime during festive high-demand wholesale booking campaigns.",
       "Empowered dealers with 24/7 visibility over pending shipments and ledger statements.",
     ],
-    technologies: ["Next.js 15", "TypeScript", "Node.js", "PostgreSQL", "Stripe / Razorpay", "Redis"],
+    technologies: [
+      "Next.js 15",
+      "TypeScript",
+      "Node.js",
+      "PostgreSQL",
+      "Stripe / Razorpay",
+      "Redis",
+    ],
     testimonial: {
       quote:
         "Our wholesale buyers love the new platform. Order placement speed tripled and our customer support calls dropped significantly.",
@@ -93,17 +118,20 @@ export const portfolioProjects: PortfolioProject[] = [
       role: "Chief Commercial Officer, Apex Network",
     },
   },
+
   {
     id: "ai-customer-support-assistant",
     slug: "ai-customer-support-assistant",
     title: "AI Customer Support Assistant",
-    shortDescription: "Intelligent chatbot to automate customer support and improve engagement.",
+    shortDescription:
+      "Intelligent chatbot to automate customer support and improve engagement.",
     fullDescription:
       "An enterprise conversational AI system deployed across web and WhatsApp that handles complex customer inquiries, policy lookups, order tracking, and intelligent ticket routing.",
     client: "Novaflow Global Solutions",
     category: "AI / Chatbot",
     tags: ["AI / Chatbot", "Customer Support"],
-    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1000&q=80",
+    image:
+      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1000&q=80",
     isFeatured: true,
     metrics: [
       { stat: "74%", label: "Ticket Deflection Rate" },
@@ -119,7 +147,13 @@ export const portfolioProjects: PortfolioProject[] = [
       "Supported multilingual dialogs across English, Hindi, and Marathi seamlessly.",
       "Safely transferred edge-case queries to live agents with complete conversational context.",
     ],
-    technologies: ["OpenAI GPT-4o", "LangChain", "Node.js", "Vector DB", "WhatsApp Cloud API"],
+    technologies: [
+      "OpenAI GPT-4o",
+      "LangChain",
+      "Node.js",
+      "Vector DB",
+      "WhatsApp Cloud API",
+    ],
     testimonial: {
       quote:
         "KrutiKalpa delivered an exceptional web application for our business. Their team is professional, responsive and truly understands our requirements.",
@@ -127,33 +161,80 @@ export const portfolioProjects: PortfolioProject[] = [
       role: "CEO, Novaflow Pvt. Ltd.",
     },
   },
+
+  // WardMitra: App information + Google Play Store
   {
     id: "wardmitra-digital-governance",
     slug: "wardmitra-digital-governance",
     title: "WardMitra: AI Digital Governance",
-    shortDescription: "AI-powered citizen engagement and grievance redressal platform.",
+    shortDescription:
+      "AI-powered citizen engagement, grievance redressal, and digital governance application.",
+
     fullDescription:
-      "WardMitra is KrutiKalpa's flagship citizen governance and municipal administration platform. It enables seamless citizen grievance registration, automated department dispatching, Marathi NLP categorization, and real-time civic analytics.",
+      "WardMitra is KrutiKalpa's citizen governance and municipal administration platform. It connects citizens with local authorities through digital grievance registration, complaint tracking, automated department dispatching, Marathi NLP categorization, and real-time civic analytics.",
+
     client: "Municipal Corporations & Civic Bodies",
+
     category: "AI Agents",
-    tags: ["AI Agents", "Government"],
-    image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1000&q=80",
+
+    tags: [
+      "AI Agents",
+      "Government",
+      "Mobile App",
+      "Digital Governance",
+    ],
+
+    image:
+      "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1000&q=80",
+
     isFeatured: false,
+
+    // App Information
+    platform: "Android",
+
+    appInfo:
+      "WardMitra is a digital civic governance application that helps citizens connect with municipal authorities, report civic issues, and access grievance-related services through a mobile platform.",
+
+    appFeatures: [
+      "Citizen Grievance Registration",
+      "Civic Complaint Tracking",
+      "Automated Department Dispatching",
+      "Marathi NLP Complaint Categorization",
+      "Real-Time Civic Analytics",
+      "Digital Citizen Engagement",
+    ],
+
+    // Google Play Store URL
+    playStoreUrl:
+      "https://play.google.com/store/apps/details?id=in.spwhi.wardmitra",
+
     metrics: [
       { stat: "85%", label: "Faster Complaint Resolution" },
       { stat: "2.5M+", label: "Citizens Impacted" },
       { stat: "100%", label: "Audit Traceability" },
     ],
+
     challenge:
       "Municipal civic grievances were filed across disconnected channels (letters, phone, walk-ins) with no central tracking, leading to lost citizen complaints and lack of departmental accountability.",
+
     solution:
       "Built a unified omni-channel platform featuring WhatsApp bot intake, automated Marathi and English NLP complaint routing, geo-tagged field worker dispatch, and public transparency dashboards.",
+
     results: [
       "Enabled citizens to file, photo-tag, and track civic issues directly on WhatsApp.",
       "Empowered municipal commissioners with live GIS heatmaps of unresolved civic issues.",
       "Drastically improved municipal satisfaction ratings across surveyed municipal wards.",
     ],
-    technologies: ["Next.js", "Python NLP", "FastAPI", "PostgreSQL / PostGIS", "Docker", "AWS"],
+
+    technologies: [
+      "Next.js",
+      "Python NLP",
+      "FastAPI",
+      "PostgreSQL / PostGIS",
+      "Docker",
+      "AWS",
+    ],
+
     testimonial: {
       quote:
         "WardMitra has revolutionized how our municipal administration communicates with citizens. Real-time accountability is finally here.",
@@ -161,11 +242,13 @@ export const portfolioProjects: PortfolioProject[] = [
       role: "Director of Municipal Administration",
     },
   },
+
   {
     id: "field-assist-workforce-monitoring",
     slug: "field-assist-workforce-monitoring",
     title: "Field Assist: Smart Field Operations",
-    shortDescription: "Geo-tagged field reporting and mobile workforce management system.",
+    shortDescription:
+      "Geo-tagged field reporting and mobile workforce management system.",
     fullDescription:
       "A high-resilience mobile and cloud application designed for large-scale field teams. Delivers GPS-verified site audits, tamper-proof offline photo capture, dynamic inspection checklists, and supervisor route tracking.",
     client: "Infrastructure & Public Health Agencies",
@@ -187,13 +270,21 @@ export const portfolioProjects: PortfolioProject[] = [
       "Reduced supervisory reporting delays from 7 days down to instant real-time synchronization.",
       "Recognized by regional public authorities for eliminating phantom inspection reports.",
     ],
-    technologies: ["React Native", "SQLite", "Node.js", "AWS S3", "PostgreSQL"],
+    technologies: [
+      "React Native",
+      "SQLite",
+      "Node.js",
+      "AWS S3",
+      "PostgreSQL",
+    ],
   },
+
   {
     id: "arogyamitra-public-health",
     slug: "arogyamitra-public-health",
     title: "ArogyaMitra: Digital Healthcare Ecosystem",
-    shortDescription: "Digital public health platform streamlining patient care and claim workflows.",
+    shortDescription:
+      "Digital public health platform streamlining patient care and claim workflows.",
     fullDescription:
       "An integrated healthcare delivery and clinical workflow ecosystem designed to improve patient accessibility, bed management, doctor scheduling, diagnostic lab integration, and cashless claim audits.",
     client: "Healthcare Networks & Public Institutions",
@@ -215,6 +306,13 @@ export const portfolioProjects: PortfolioProject[] = [
       "Identified and prevented significant fraudulent billing leakages across hospital networks.",
       "Delivered 100% compliance with national health authority data privacy and security mandates.",
     ],
-    technologies: ["Spring Boot", "Java", "Next.js", "PostgreSQL", "Docker", "Apache Kafka"],
+    technologies: [
+      "Spring Boot",
+      "Java",
+      "Next.js",
+      "PostgreSQL",
+      "Docker",
+      "Apache Kafka",
+    ],
   },
 ];

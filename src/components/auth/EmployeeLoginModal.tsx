@@ -16,8 +16,16 @@ interface EmployeeLoginModalProps {
   onClose: () => void;
 }
 
+const COMPANY_DOMAIN = "@krutikalpa.com";
+const ZOHO_WORKPLACE_DASHBOARD = "https://workplace.zoho.in/#dashboard/";
+
 const ZOHO_BASE_URL =
-  "https://accounts.zoho.in/signin?servicename=ZohoHome&signupurl=https://www.zoho.com/signup.html";
+  "https://accounts.zoho.in/signin" +
+  "?servicename=ZohoHome" +
+  "&signupurl=" +
+  encodeURIComponent("https://www.zoho.com/signup.html") +
+  "&serviceurl=" +
+  encodeURIComponent(ZOHO_WORKPLACE_DASHBOARD);
 
 export function EmployeeLoginModal({
   isOpen,
@@ -67,15 +75,6 @@ export function EmployeeLoginModal({
     return null;
   }
 
-  const trimmed = empUser.trim();
-
-  const previewEmail =
-    trimmed.length > 0 && !trimmed.includes("@")
-      ? `${trimmed}@krutikalpa.com`
-      : trimmed.length > 0
-        ? trimmed
-        : null;
-
   const normalizeEmployeeEmail = (value: string): string => {
     const user = value.trim();
 
@@ -83,14 +82,16 @@ export function EmployeeLoginModal({
       return "";
     }
 
-    // Append the company domain only when the user enters a username.
     if (!user.includes("@")) {
-      return `${user}@krutikalpa.com`;
+      return `${user}${COMPANY_DOMAIN}`;
     }
 
-    // Keep the complete email address.
     return user;
   };
+
+  const trimmed = empUser.trim();
+  const hasAtSymbol = empUser.includes("@");
+  const previewEmail = trimmed.length > 0 ? normalizeEmployeeEmail(trimmed) : null;
 
   const goToKrutikalpaMail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -99,29 +100,26 @@ export function EmployeeLoginModal({
     const email = normalizeEmployeeEmail(empUser);
 
     if (!email) {
-      setError("Please enter your employee email address or username.");
+      setError("Please enter your employee username or email address.");
       inputRef.current?.focus();
       return;
     }
 
-    // Basic email format validation.
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      setError("Please enter a valid employee email address.");
+      setError("Please enter a valid employee username or email address.");
       inputRef.current?.focus();
       return;
     }
 
-    // HTML code pramanech exact URL aani LOGIN_ID parameter tayar karne
+    // Zoho auto-fill + post-login redirect to Workplace Dashboard
     const encodedEmail = encodeURIComponent(email);
     const targetUrl = `${ZOHO_BASE_URL}&LOGIN_ID=${encodedEmail}&login_id=${encodedEmail}`;
 
-    // Navin browser tab madhe Zoho sign-in page open karne
     const newTab = window.open(targetUrl, "_blank");
 
     if (!newTab) {
-      // Jar browser ne popup block kela tar HTML GET form dware submit karne
       const form = document.createElement("form");
       form.method = "GET";
       form.action = "https://accounts.zoho.in/signin";
@@ -130,6 +128,7 @@ export function EmployeeLoginModal({
       const params: Record<string, string> = {
         servicename: "ZohoHome",
         signupurl: "https://www.zoho.com/signup.html",
+        serviceurl: ZOHO_WORKPLACE_DASHBOARD,
         LOGIN_ID: email,
       };
 
@@ -193,7 +192,7 @@ export function EmployeeLoginModal({
           </h3>
 
           <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
-            Sign in with your company account to access mailbox.
+            Sign in with your company account to access Zoho Workplace.
           </p>
         </div>
 
@@ -215,7 +214,9 @@ export function EmployeeLoginModal({
               Employee Email / Username:
             </label>
 
-            <div className="relative">
+            <div className="relative flex items-center">
+              <Mail className="absolute left-3.5 w-4 h-4 text-zinc-400 dark:text-zinc-500 pointer-events-none" />
+
               <input
                 ref={inputRef}
                 type="text"
@@ -227,36 +228,31 @@ export function EmployeeLoginModal({
                     setError(null);
                   }
                 }}
-                placeholder="e.g. name@krutikalpa.com"
+                placeholder="username"
                 required
                 autoComplete="username"
                 autoCapitalize="none"
                 spellCheck={false}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-zinc-50 dark:bg-white/[0.04] border border-zinc-300 dark:border-white/[0.12] text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#FF6B0A] focus:border-transparent transition-all"
+                className={`w-full pl-10 ${
+                  hasAtSymbol ? "pr-4" : "pr-36"
+                } py-2.5 rounded-xl text-sm bg-zinc-50 dark:bg-white/[0.04] border border-zinc-300 dark:border-white/[0.12] text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#FF6B0A] focus:border-transparent transition-all`}
               />
 
-              <Mail className="absolute left-3.5 top-3 w-4 h-4 text-zinc-400 dark:text-zinc-500 pointer-events-none" />
+              {/* Input Box chya aatach @krutikalpa.com dakhavne */}
+              {!hasAtSymbol && (
+                <span className="absolute right-3 px-2 py-0.5 rounded-md bg-zinc-200/70 dark:bg-white/[0.08] text-xs font-mono font-medium text-[#FF6B0A] pointer-events-none select-none">
+                  {COMPANY_DOMAIN}
+                </span>
+              )}
             </div>
 
             {/* Live Email Preview */}
-            {/* {previewEmail ? (
+            {/* {previewEmail && (
               <p className="mt-1.5 text-xs text-[#FF6B0A] font-medium flex items-center gap-1">
                 <ArrowRight className="w-3 h-3 shrink-0" />
                 <span className="truncate">
                   Redirecting as: <strong>{previewEmail}</strong>
                 </span>
-              </p>
-            ) : (
-              <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
-                युजरनेम टाकल्यास (उदा.{" "}
-                <span className="font-mono text-zinc-700 dark:text-zinc-300">
-                  sanket.barhate
-                </span>
-                ) आपोआप{" "}
-                <span className="font-mono text-[#FF6B0A]">
-                  @krutikalpa.com
-                </span>{" "}
-                जोडले जाईल.
               </p>
             )} */}
           </div>
@@ -275,7 +271,7 @@ export function EmployeeLoginModal({
             type="submit"
             className="w-full py-2.5 px-4 rounded-xl font-semibold text-white bg-[#FF6B0A] hover:bg-[#EA580C] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#FF6B0A]/20 focus:outline-none focus:ring-2 focus:ring-[#FF6B0A]"
           >
-            <span>Sign In to Mailbox</span>
+            <span>Sign In to Workplace</span>
             <ExternalLink className="w-4 h-4" />
           </button>
         </form>
@@ -283,7 +279,7 @@ export function EmployeeLoginModal({
         {/* Footer */}
         <div className="mt-5 pt-3 border-t border-zinc-200 dark:border-white/[0.08] text-center">
           <p className="text-[11px] text-zinc-500 dark:text-zinc-500">
-            KrutiKalpa Corporate Mailbox (Zoho)
+            KrutiKalpa Corporate Mailbox (Zoho Workplace)
           </p>
         </div>
       </div>

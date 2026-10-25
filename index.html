@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zoho Quick Sign In</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      margin-bottom: 8px;
+      color: #111;
+    }
+    p {
+      margin-bottom: 20px;
+      color: #555;
+      font-size: 14px;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+      outline: none;
+    }
+    input[type="email"]:focus {
+      border-color: #159aff;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #159aff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0b84e0;
+    }
+    .status {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #0b84e0;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Zoho Sign In</h2>
+    <p>Tujha Zoho email takun direct login page var ja</p>
+    
+    <!-- target="_blank" mule Preview madhe 'refused to connect' error yenar nahi -->
+    <form id="zohoForm" action="https://accounts.zoho.in/signin" method="GET" target="_blank">
+      <input type="hidden" name="servicename" value="ZohoHome" />
+      <input type="hidden" name="signupurl" value="https://www.zoho.com/signup.html" />
+      
+      <!-- Zoho login input parameter -->
+      <input 
+        type="email" 
+        id="userEmail" 
+        name="LOGIN_ID" 
+        placeholder="Email address or mobile number" 
+        required 
+      />
+      
+      <button type="submit">Next (Zoho var ja)</button>
+      <div id="statusMsg" class="status">Email copy jhala aahe! Navin tab madhe Zoho ughadat aahe...</div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('zohoForm');
+    const emailInput = document.getElementById('userEmail');
+    const statusMsg = document.getElementById('statusMsg');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      if (!email) return;
+
+      // 1. Email automatic clipboard var copy kela jato (jar Zoho ne URL parameter block kela tar fakt Ctrl+V dabun paste karta yeil)
+      try {
+        await navigator.clipboard.writeText(email);
+      } catch (err) {
+        const tempInput = document.createElement('input');
+        tempInput.value = email;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      }
+
+      statusMsg.style.display = 'block';
+
+      // 2. Zoho Sign-in URL tayar karne
+      const targetUrl = "https://accounts.zoho.in/signin?servicename=ZohoHome&signupurl=https://www.zoho.com/signup.html&LOGIN_ID=" + encodeURIComponent(email) + "&login_id=" + encodeURIComponent(email);
+
+      // 3. Preview iframe chya baher direct Navin Browser Tab madhe open karne
+      const newWin = window.open(targetUrl, '_blank');
+      if (!newWin) {
+        form.submit();
+      }
+    });
+  </script>
+
+</body>
+</html>

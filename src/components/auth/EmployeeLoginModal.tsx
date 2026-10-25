@@ -239,7 +239,7 @@ export function EmployeeLoginModal({
             </div>
 
             {/* Live Email Preview */}
-            {previewEmail ? (
+            {/* {previewEmail ? (
               <p className="mt-1.5 text-xs text-[#FF6B0A] font-medium flex items-center gap-1">
                 <ArrowRight className="w-3 h-3 shrink-0" />
                 <span className="truncate">
@@ -258,17 +258,17 @@ export function EmployeeLoginModal({
                 </span>{" "}
                 जोडले जाईल.
               </p>
-            )}
+            )} */}
           </div>
 
           {/* Security Notice */}
-          <div className="p-2.5 rounded-xl bg-[#FF6B0A]/10 border border-[#FF6B0A]/20 flex items-start gap-2 text-[11px] text-zinc-700 dark:text-zinc-300">
+          {/* <div className="p-2.5 rounded-xl bg-[#FF6B0A]/10 border border-[#FF6B0A]/20 flex items-start gap-2 text-[11px] text-zinc-700 dark:text-zinc-300">
             <ShieldCheck className="w-4 h-4 text-[#FF6B0A] shrink-0 mt-0.5" />
             <span>
               पासवर्ड सुरक्षितपणे अधिकृत Zoho Webmail पेजवर टाकायचा आहे.
               पासवर्ड वेबसाईटवर घेतला जात नाही.
             </span>
-          </div>
+          </div> */}
 
           {/* Submit Button */}
           <button

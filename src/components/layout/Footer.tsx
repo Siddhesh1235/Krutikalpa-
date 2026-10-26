@@ -236,12 +236,12 @@ export function Footer() {
                 aria-label="Download WardMitra from Google Play Store"
                 title="Download WardMitra from Google Play Store"
               >
-                <span className="relative inline-flex items-center justify-center w-5 h-5 rounded bg-[#0F172A] p-0.5 border border-zinc-700/40">
+                <span className="relative inline-flex items-center justify-center w-7 h-7">
                   <Image
-                    src="/images/wardmitra-logo.svg"
+                    src="/images/footer/logo%20ward%20mitra.png"
                     alt="WardMitra"
-                    width={16}
-                    height={16}
+                    width={28}
+                    height={28}
                     className="object-contain"
                   />
                 </span>

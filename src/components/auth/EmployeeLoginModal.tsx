@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -15,7 +16,9 @@ interface EmployeeLoginModalProps {
 }
 
 const COMPANY_DOMAIN = "@krutikalpa.com";
-const ZOHO_WORKPLACE_DASHBOARD = "https://workplace.zoho.in/#dashboard/";
+
+const ZOHO_WORKPLACE_DASHBOARD =
+  "https://workplace.zoho.in/#dashboard/";
 
 const ZOHO_BASE_URL =
   "https://accounts.zoho.in/signin" +
@@ -36,7 +39,9 @@ export function EmployeeLoginModal({
   const [isClosing, setIsClosing] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Browser setTimeout returns a number.
+  const closeTimerRef = useRef<number | null>(null);
 
   // Reset modal state and focus input when modal opens.
   useEffect(() => {
@@ -57,7 +62,7 @@ export function EmployeeLoginModal({
       window.clearTimeout(timer);
       document.body.style.overflow = "";
 
-      if (closeTimerRef.current) {
+      if (closeTimerRef.current !== null) {
         window.clearTimeout(closeTimerRef.current);
         closeTimerRef.current = null;
       }
@@ -220,7 +225,7 @@ export function EmployeeLoginModal({
 
         {/* Header and Logo */}
         <div className="text-center mb-5">
-          <div className="relative w-12 h-12 mx-auto mb-3  p-2 flex items-center justify-center shadow-sm">
+          <div className="relative w-12 h-12 mx-auto mb-3 p-2 flex items-center justify-center shadow-sm">
             <Image
               src="/images/logo/K_LOGO.png"
               alt="KrutiKalpa Solutions"

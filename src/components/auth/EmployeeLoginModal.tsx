@@ -28,7 +28,8 @@ const ZOHO_BASE_URL =
   "&serviceurl=" +
   encodeURIComponent(ZOHO_WORKPLACE_DASHBOARD);
 
-const CLOSE_ANIMATION_DURATION = 4000;
+// Must match .login-return-animation / .login-overlay-close in globals.css.
+const CLOSE_ANIMATION_DURATION = 300;
 
 export function EmployeeLoginModal({
   isOpen,

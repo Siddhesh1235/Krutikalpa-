@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -41,7 +40,7 @@ export function EmployeeLoginModal({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Browser setTimeout returns a number.
+  // window.setTimeout returns a number in the browser (not NodeJS.Timeout).
   const closeTimerRef = useRef<number | null>(null);
 
   // Reset modal state and focus input when modal opens.
@@ -77,6 +76,10 @@ export function EmployeeLoginModal({
     }
 
     setIsClosing(true);
+
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+    }
 
     closeTimerRef.current = window.setTimeout(() => {
       closeTimerRef.current = null;

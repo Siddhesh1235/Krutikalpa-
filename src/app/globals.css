@@ -452,6 +452,212 @@ html.light select:focus {
   animation: loginReturnTop 300ms cubic-bezier(0.4, 0, 1, 1) both;
 }
 
+/* Dropdown variant: panel opens right below the navbar Employee Login button. */
+@keyframes loginDropdownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.82);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(4px) scale(1.015);
+  }
+  80% {
+    transform: translateY(-1px) scale(0.997);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loginDropdownOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+  }
+}
+
+.login-dropdown-open {
+  animation: loginDropdownIn 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.login-dropdown-close {
+  animation: loginDropdownOut 300ms ease-in both;
+}
+
+/* Login panel content: fade-up one after another. */
+@keyframes loginStaggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-stagger {
+  /* backwards (not both) so hover transforms still work after the entrance. */
+  animation: loginStaggerIn 420ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* Caret pops out of the panel edge after the panel lands. */
+@keyframes loginCaretPop {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.35);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+.login-caret-pop {
+  animation: loginCaretPop 380ms cubic-bezier(0.34, 1.56, 0.64, 1) 180ms backwards;
+}
+
+/* Moving gradient on the top accent bar */
+@keyframes loginAccentSlide {
+  from { background-position: 0% 50%; }
+  to { background-position: 200% 50%; }
+}
+
+.login-accent-bar {
+  background-size: 200% 100%;
+  animation: loginAccentSlide 3s linear infinite;
+}
+
+/* Slowly drifting background glow */
+@keyframes loginBlobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-18px, 14px) scale(1.1); }
+  66% { transform: translate(12px, -10px) scale(0.95); }
+}
+
+.login-blob {
+  animation: loginBlobFloat 8s ease-in-out infinite;
+}
+
+/* Logo pops in with a little spin */
+@keyframes loginLogoPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-25deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12) rotate(6deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.login-logo-pop {
+  animation: loginLogoPop 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 120ms backwards;
+}
+
+/* Logo halo pulse */
+@keyframes loginHalo {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+.login-logo-halo {
+  animation: loginHalo 2.4s ease-in-out infinite;
+}
+
+/* Rotating conic gradient behind the logo ring */
+@keyframes loginRingSpin {
+  to { transform: rotate(360deg); }
+}
+
+.login-ring-spin {
+  animation: loginRingSpin 4s linear infinite;
+}
+
+/* Shimmer across the "Webmail" gradient text */
+.login-text-shimmer {
+  background-size: 200% auto;
+  animation: loginAccentSlide 3s linear infinite;
+}
+
+/* Domain chip / email preview slide in */
+@keyframes loginChipIn {
+  from {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.login-chip-in {
+  animation: loginChipIn 260ms ease-out both;
+}
+
+/* Error message shake */
+@keyframes loginShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.login-shake {
+  animation: loginShake 400ms ease-in-out;
+}
+
+
+/* Shine sweep across the submit button on hover */
+.login-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 700ms ease;
+  pointer-events: none;
+}
+
+.login-shine:hover::after {
+  transform: translateX(120%);
+}
+
+/* One automatic sweep right after the panel opens */
+@keyframes loginShineAuto {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(120%); }
+}
+
+.login-shine::after {
+  animation: loginShineAuto 900ms ease 950ms;
+}
+
 @keyframes loginOverlayIn {
   from {
     opacity: 0;
@@ -483,7 +689,23 @@ html.light select:focus {
   .login-overlay-open,
   .login-overlay-close,
   .login-drop-animation,
-  .login-return-animation {
+  .login-return-animation,
+  .login-dropdown-open,
+  .login-dropdown-close,
+  .login-stagger,
+  .login-caret-pop,
+  .login-accent-bar,
+  .login-blob,
+  .login-logo-pop,
+  .login-logo-halo,
+  .login-ring-spin,
+  .login-text-shimmer,
+  .login-chip-in,
+  .login-shake {
     animation: none;
+  }
+
+  .login-shine::after {
+    display: none;
   }
 }

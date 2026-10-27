@@ -49,28 +49,21 @@ export function Footer() {
                 />
               </div>
 
-              {/* Company Name */}
-              <div className="flex min-w-0 flex-col items-center justify-center">
-                <div className="flex items-baseline justify-center whitespace-nowrap text-lg sm:text-xl font-medium tracking-[-0.045em] leading-none">
-                  <span className="text-[#071B49] dark:text-white transition-colors">
-                    Kruti
-                  </span>
-
-                  <span className="text-[#E87500] transition-colors">
-                    Kalpa
-                  </span>
-                </div>
-
-                <div className="mt-1 flex w-full items-center justify-center gap-1 sm:gap-1.5">
-                  <span className="h-px flex-1 bg-[#071B49] dark:bg-zinc-400" />
-
-                  <span className="whitespace-nowrap text-[8px] sm:text-[9px] font-medium uppercase tracking-[0.09em] text-zinc-800 dark:text-zinc-200">
-                    Solutions Pvt. Ltd.
-                  </span>
-
-                  <span className="h-px flex-1 bg-[#071B49] dark:bg-zinc-400" />
-                </div>
-              </div>
+              {/* Full Logo (light / dark variants) */}
+              <Image
+                src="/images/logo/krutikalpa-logo-full.png"
+                alt="KrutiKalpa Solutions Pvt. Ltd."
+                width={1528}
+                height={373}
+                className="block dark:hidden h-7 sm:h-8 w-auto"
+              />
+              <Image
+                src="/images/logo/krutikalpa-logo-full-dark.png"
+                alt="KrutiKalpa Solutions Pvt. Ltd."
+                width={1528}
+                height={373}
+                className="hidden dark:block h-7 sm:h-8 w-auto"
+              />
             </Link>
 
             {/* Company Description */}
@@ -173,7 +166,8 @@ export function Footer() {
     {/* City, State, Country - Below */}
     <p className="mt-1 text-[13px] sm:text-sm leading-5 text-zinc-600 dark:text-zinc-400">
       {companyData.contact.address.city},{" "}
-      {companyData.contact.address.state},{" "}
+      {companyData.contact.address.state} &ndash;{" "}
+      {companyData.contact.address.pincode},{" "}
       {companyData.contact.address.country}
     </p>
   </div>

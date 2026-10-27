@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -16,6 +16,9 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+
+  // Desktop Employee Login button; the login panel drops down below it.
+  const loginButtonRef = useRef<HTMLButtonElement>(null);
 
   // Handle navbar background on scroll
   useEffect(() => {
@@ -95,11 +98,11 @@ export function Navbar() {
               className="flex items-center gap-2 sm:gap-2.5 group focus:outline-none"
               aria-label="KrutiKalpa Solutions Home"
             >
-              {/* Logo Image */}
+              {/* K Logo */}
               <div className="relative w-7 h-7 sm:w-10 sm:h-10 lg:w-11 lg:h-11 shrink-0 overflow-hidden">
                 <Image
                   src="/images/logo/K_LOGO.png"
-                  alt="KrutiKalpa Solutions logo"
+                  alt=""
                   fill
                   priority
                   sizes="44px"
@@ -107,22 +110,23 @@ export function Navbar() {
                 />
               </div>
 
-              {/* Brand Name */}
-              <div className="flex flex-col min-w-0">
-                <div className="flex items-center text-base sm:text-lg lg:text-xl font-bold tracking-tight leading-none">
-                  <span className="text-zinc-950 dark:text-white transition-colors">
-                    Kruti
-                  </span>
-
-                  <span className="text-[#FF6B0A]">
-                    Kalpa
-                  </span>
-                </div>
-
-                <span className="mt-0.5 sm:mt-1 text-[9px] sm:text-[10px] lg:text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 transition-colors">
-                  Solutions
-                </span>
-              </div>
+              {/* Full Logo (light / dark variants) */}
+              <Image
+                src="/images/logo/krutikalpa-logo-full.png"
+                alt="KrutiKalpa Solutions Pvt. Ltd."
+                width={1528}
+                height={373}
+                priority
+                className="block dark:hidden h-6 sm:h-8 lg:h-9 w-auto"
+              />
+              <Image
+                src="/images/logo/krutikalpa-logo-full-dark.png"
+                alt="KrutiKalpa Solutions Pvt. Ltd."
+                width={1528}
+                height={373}
+                priority
+                className="hidden dark:block h-6 sm:h-8 lg:h-9 w-auto"
+              />
             </Link>
           </div>
 
@@ -165,9 +169,11 @@ export function Navbar() {
 
             {/* Desktop Employee Login */}
             <button
+              ref={loginButtonRef}
               type="button"
               onClick={handleEmployeeLogin}
               aria-label="Employee Login - KrutiKalpa Webmail"
+              aria-expanded={loginModalOpen}
               className="hidden lg:inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold text-zinc-800 dark:text-white bg-white/80 dark:bg-white/[0.05] hover:bg-zinc-100 dark:hover:bg-white/[0.1] border border-zinc-300 dark:border-white/[0.15] hover:border-[#FF6B0A]/60 transition-all duration-200 shadow-sm hover:shadow-[#FF6B0A]/20 focus:outline-none focus:ring-2 focus:ring-[#FF6B0A] whitespace-nowrap"
             >
               <LogIn className="w-4 h-4 text-[#FF6B0A]" />
@@ -261,6 +267,7 @@ export function Navbar() {
       <EmployeeLoginModal
         isOpen={loginModalOpen}
         onClose={handleCloseLogin}
+        anchorRef={loginButtonRef}
       />
     </>
   );

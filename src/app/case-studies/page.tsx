@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
-  Quote,
   Cpu,
   BarChart3,
   AlertCircle,
@@ -173,21 +172,6 @@ export default function CaseStudiesPage() {
                 ))}
               </ul>
             </div>
-
-            {/* Testimonial if present */}
-            {project.testimonial && (
-              <div className="mt-6 p-6 rounded-2xl bg-orange-50/80 dark:bg-gradient-to-r dark:from-[#FF6B0A]/10 dark:to-transparent border border-orange-200 dark:border-[#FF6B0A]/20 flex items-start gap-4">
-                <Quote className="w-6 h-6 text-[#FF6B0A] shrink-0 rotate-180 mt-1" />
-                <div>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200">
-                    &ldquo;{project.testimonial.quote}&rdquo;
-                  </p>
-                  <div className="mt-2 text-xs font-semibold text-[#FF6B0A]">
-                    — {project.testimonial.author}, {project.testimonial.role}
-                  </div>
-                </div>
-              </div>
-            )}
           </article>
         ))}
       </section>

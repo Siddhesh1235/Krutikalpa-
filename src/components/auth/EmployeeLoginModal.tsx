@@ -295,7 +295,7 @@ export function EmployeeLoginModal({
           isDropdown
             ? "fixed w-[25rem] max-w-[calc(100vw-2rem)] origin-top-right"
             : "relative w-full max-w-md"
-        } rounded-3xl bg-white/95 dark:bg-[#0E0E0E]/95 backdrop-blur-xl border border-zinc-200/80 dark:border-white/[0.1] shadow-[0_24px_60px_-12px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,107,10,0.06)] dark:shadow-[0_24px_60px_-12px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(255,107,10,0.35)] p-6 sm:p-7 text-zinc-900 dark:text-white`}
+        } rounded-3xl bg-white dark:bg-[#0E0E0E] border border-zinc-200/80 dark:border-white/[0.1] shadow-[0_24px_60px_-12px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,107,10,0.06)] dark:shadow-[0_24px_60px_-12px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(255,107,10,0.35)] p-6 sm:p-7 text-zinc-900 dark:text-white`}
       >
         {/* Caret pointing at the Employee Login button */}
         {isDropdown && (
@@ -313,16 +313,6 @@ export function EmployeeLoginModal({
         >
           {/* Top gradient accent */}
           <div className="login-accent-bar absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#FF6B0A] via-amber-400 to-[#FF6B0A]" />
-
-          {/* Floating glow blobs */}
-          <div className="login-blob absolute -top-20 -right-16 w-48 h-48 rounded-full bg-[#FF6B0A]/20 dark:bg-[#FF6B0A]/25 blur-3xl" />
-          <div
-            style={{ animationDelay: "-4s" }}
-            className="login-blob absolute -bottom-24 -left-16 w-48 h-48 rounded-full bg-amber-300/20 dark:bg-amber-500/10 blur-3xl"
-          />
-
-          {/* Dot grid */}
-          <div className="absolute inset-x-0 top-0 h-40 opacity-[0.35] dark:opacity-20 [background-image:radial-gradient(rgba(255,107,10,0.35)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
         </div>
 
         {/* Close Button */}
@@ -337,30 +327,24 @@ export function EmployeeLoginModal({
 
         {/* Header and Logo */}
         <div className="relative text-center mb-5">
-          <div className="login-logo-pop relative w-16 h-16 mx-auto mb-4">
-            {/* Pulsing halo */}
-            <span
-              aria-hidden="true"
-              className="login-logo-halo absolute inset-0 rounded-2xl bg-[#FF6B0A]/30"
+          {/* K Logo (no tile, light / dark variants) */}
+          <div className="login-logo-pop relative w-12 h-14 mx-auto mb-4">
+            <Image
+              src="/images/logo/K_LOGO.png"
+              alt="KrutiKalpa Solutions"
+              fill
+              sizes="48px"
+              className="object-contain dark:hidden"
+              priority
             />
-
-            {/* Gradient ring tile (ring slowly rotates) */}
-            <div className="relative w-full h-full rounded-2xl p-[2px] overflow-hidden shadow-lg shadow-[#FF6B0A]/30">
-              <span
-                aria-hidden="true"
-                className="login-ring-spin absolute -inset-1/2 bg-[conic-gradient(from_0deg,#FF6B0A,#FBBF24,#FF6B0A,#FFE2CC,#FF6B0A)]"
-              />
-              <div className="relative w-full h-full rounded-[14px] bg-white flex items-center justify-center">
-                <Image
-                  src="/images/logo/K_LOGO.png"
-                  alt="KrutiKalpa Solutions"
-                  width={36}
-                  height={36}
-                  className="object-contain"
-                  priority
-                />
-              </div>
-            </div>
+            <Image
+              src="/images/logo/K_LOGO-dark.png"
+              alt="KrutiKalpa Solutions"
+              fill
+              sizes="48px"
+              className="object-contain hidden dark:block"
+              priority
+            />
           </div>
 
           <span

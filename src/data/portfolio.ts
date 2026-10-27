@@ -234,13 +234,6 @@ export const portfolioProjects: PortfolioProject[] = [
       "Docker",
       "AWS",
     ],
-
-    testimonial: {
-      quote:
-        "WardMitra has revolutionized how our municipal administration communicates with citizens. Real-time accountability is finally here.",
-      author: "D. S. Kulkarni",
-      role: "Director of Municipal Administration",
-    },
   },
 
   {

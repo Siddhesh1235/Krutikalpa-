@@ -108,7 +108,7 @@ export default function ContactPage() {
                     {companyData.contact.address.country}
                   </p>
                   <a
-                    href="https://maps.google.com/?q=Kohinoor+B-Zone+Baner+Pune"
+                    href={companyData.contact.address.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold text-[#FF6B0A] hover:underline"

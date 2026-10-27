@@ -153,24 +153,33 @@ export function Footer() {
 
             <ul className="space-y-4 text-[13px] sm:text-sm leading-5 text-zinc-600 dark:text-zinc-400">
               {/* Address */}
-<li className="flex items-start gap-2.5">
-  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#FF6B0A]" />
+<li>
+  <a
+    href={companyData.contact.address.mapsUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Open KrutiKalpa office location in Google Maps"
+    title="Open in Google Maps"
+    className="group flex items-start gap-2.5 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B0A]"
+  >
+    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#FF6B0A]" />
 
-  <div className="min-w-0">
-    {/* Building Address - First */}
-    <p className="text-[11px] sm:text-xs leading-5 text-zinc-500 dark:text-zinc-500">
-      {companyData.contact.address.building},{" "}
-      {companyData.contact.address.area}
-    </p>
+    <div className="min-w-0">
+      {/* Building Address - First */}
+      <p className="text-[11px] sm:text-xs leading-5 text-zinc-500 dark:text-zinc-500 group-hover:text-[#FF6B0A] transition-colors">
+        {companyData.contact.address.building},{" "}
+        {companyData.contact.address.area}
+      </p>
 
-    {/* City, State, Country - Below */}
-    <p className="mt-1 text-[13px] sm:text-sm leading-5 text-zinc-600 dark:text-zinc-400">
-      {companyData.contact.address.city},{" "}
-      {companyData.contact.address.state} &ndash;{" "}
-      {companyData.contact.address.pincode},{" "}
-      {companyData.contact.address.country}
-    </p>
-  </div>
+      {/* City, State, Country - Below */}
+      <p className="mt-1 text-[13px] sm:text-sm leading-5 text-zinc-600 dark:text-zinc-400 group-hover:text-[#FF6B0A] transition-colors">
+        {companyData.contact.address.city},{" "}
+        {companyData.contact.address.state} &ndash;{" "}
+        {companyData.contact.address.pincode},{" "}
+        {companyData.contact.address.country}
+      </p>
+    </div>
+  </a>
 </li>
 
               {/* Email */}

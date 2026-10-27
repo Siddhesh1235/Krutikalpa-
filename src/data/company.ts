@@ -30,6 +30,7 @@ export interface CompanyInfo {
       pincode: string;
       country: string;
       full: string;
+      mapsUrl: string;
     };
   };
   social: {
@@ -78,6 +79,13 @@ export const companyData: CompanyInfo = {
       pincode: "411045",
       country: "India",
       full: "Kohinoor B-Zone, First floor, 106, Baner, Pune, Maharashtra – 411045, India",
+      // Full google.com/maps link: the maps.app.goo.gl short link is blocked on
+      // some networks (times out), while google.com/maps loads everywhere.
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(
+          "KrutiKalpa Solutions, 106 First Floor, Kohinoor B-Zone, Baner, Pune, Maharashtra 411045"
+        ),
     },
   },
   social: {

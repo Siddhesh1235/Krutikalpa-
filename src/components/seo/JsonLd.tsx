@@ -121,14 +121,6 @@ export function JsonLd({ type = "Organization", data, breadcrumbs }: JsonLdProps
       "@id": `${baseUrl}/#organization`,
     },
     inLanguage: "en-US",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${baseUrl}/services/?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 
   let schemaPayload: Record<string, any>;

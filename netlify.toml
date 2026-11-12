@@ -2,6 +2,17 @@
   command = "npm run build"
   publish = "out"
 
+# Old Terms URL still linked externally; send it to the real page.
+[[redirects]]
+  from = "/terms-conditions"
+  to = "/terms/"
+  status = 301
+
+[[redirects]]
+  from = "/terms-conditions/"
+  to = "/terms/"
+  status = 301
+
 [[redirects]]
   from = "/*"
   to = "/404.html"

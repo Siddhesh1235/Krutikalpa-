@@ -1,5 +1,35 @@
-
-import * as SimpleIcons from "simple-icons";
+// Named imports only: a namespace import (`import * as`) pulls all 3,000+
+// simple-icons into the homepage bundle (~5 MB).
+import {
+  siAngular,
+  siCrewai,
+  siDocker,
+  siFastapi,
+  siFlutter,
+  siGithubactions,
+  siHuggingface,
+  siJavascript,
+  siKotlin,
+  siKubernetes,
+  siLangchain,
+  siModelcontextprotocol,
+  siMongodb,
+  siMysql,
+  siN8n,
+  siNextdotjs,
+  siNodedotjs,
+  siOpenjdk,
+  siPostgresql,
+  siPython,
+  siReact,
+  siRedis,
+  siSpringboot,
+  siSwift,
+  siTailwindcss,
+  siTerraform,
+  siTypescript,
+  siVercel,
+} from "simple-icons";
 
 export interface TechItem {
   name: string;
@@ -266,75 +296,58 @@ type SimpleIconDefinition = {
   hex: string;
 };
 
-const simpleIcons = SimpleIcons as unknown as Record<
-  string,
-  SimpleIconDefinition | undefined
->;
+// OpenAI, AWS, Azure and Amazon RDS are not in simple-icons (brand removals),
+// so those slugs have no entry and fall back to the card's default icon.
+const iconMap: Record<string, SimpleIconDefinition> = {
+  react: siReact,
+  nextjs: siNextdotjs,
+  angular: siAngular,
+  typescript: siTypescript,
+  javascript: siJavascript,
+  tailwindcss: siTailwindcss,
 
-const iconMap: Record<string, string[]> = {
-  react: ["siReact"],
-  nextjs: ["siNextdotjs"],
-  angular: ["siAngular"],
-  typescript: ["siTypescript"],
-  javascript: ["siJavascript"],
-  tailwindcss: ["siTailwindcss"],
+  nodejs: siNodedotjs,
+  springboot: siSpringboot,
+  java: siOpenjdk,
+  python: siPython,
+  fastapi: siFastapi,
 
-  nodejs: ["siNodedotjs"],
-  springboot: ["siSpringboot"],
-  java: ["siOpenjdk", "siJava"],
-  python: ["siPython"],
-  fastapi: ["siFastapi"],
+  reactnative: siReact,
+  flutter: siFlutter,
+  swift: siSwift,
+  kotlin: siKotlin,
 
-  reactnative: ["siReact"],
-  flutter: ["siFlutter"],
-  swift: ["siSwift"],
-  kotlin: ["siKotlin"],
+  langchain: siLangchain,
+  crewai: siCrewai,
+  n8n: siN8n,
+  mcp: siModelcontextprotocol,
+  huggingface: siHuggingface,
 
-  openai: ["siOpenai"],
-  langchain: ["siLangchain"],
-  crewai: ["siCrewai"],
-  n8n: ["siN8N", "siN8n"],
-  mcp: ["siModelcontextprotocol", "siMcp"],
-  huggingface: ["siHuggingface"],
+  mongodb: siMongodb,
+  postgresql: siPostgresql,
+  mysql: siMysql,
+  redis: siRedis,
 
-  mongodb: ["siMongodb"],
-  postgresql: ["siPostgresql"],
-  mysql: ["siMysql"],
-  redis: ["siRedis"],
-  rds: ["siAmazonrds", "siAmazonrdsdatabase"],
+  vercel: siVercel,
 
-  aws: ["siAmazonaws"],
-  azure: ["siMicrosoftazure"],
-  vercel: ["siVercel"],
-
-  docker: ["siDocker"],
-  kubernetes: ["siKubernetes"],
-  githubactions: ["siGithubactions"],
-  terraform: ["siTerraform"],
+  docker: siDocker,
+  kubernetes: siKubernetes,
+  githubactions: siGithubactions,
+  terraform: siTerraform,
 };
 
 export function getTechnologyIcon(
   iconSlug: string
 ): TechnologyIconData | null {
-  const candidates = iconMap[iconSlug.toLowerCase()];
+  const slug = iconSlug.toLowerCase();
+  const icon = iconMap[slug];
 
-  if (!candidates) return null;
+  if (!icon?.path) return null;
 
-  for (const key of candidates) {
-    const icon = simpleIcons[key];
-
-    if (!icon?.path) continue;
-
-    return {
-      title: icon.title,
-      path: icon.path,
-      hex: icon.hex,
-      themeAware:
-        iconSlug.toLowerCase() === "nextjs" ||
-        iconSlug.toLowerCase() === "angular" ||
-        iconSlug.toLowerCase() === "vercel",
-    };
-  }
-
-  return null;
+  return {
+    title: icon.title,
+    path: icon.path,
+    hex: icon.hex,
+    themeAware: slug === "nextjs" || slug === "angular" || slug === "vercel",
+  };
 }
